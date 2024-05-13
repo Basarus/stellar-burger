@@ -15,8 +15,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 interface IUserState {
   email: string;
   name: string;
-  token: string;
-  refreshToken: string;
   password: string;
   isLoading: boolean;
   isTryAuth: boolean;
@@ -26,8 +24,6 @@ interface IUserState {
 const initialState: IUserState = {
   email: '',
   name: '',
-  token: '',
-  refreshToken: '',
   password: '',
   isTryAuth: false,
   isLoading: true
@@ -107,8 +103,6 @@ const userSlice = createSlice({
       .addCase(fetchRegisterUser.fulfilled, (state, action) => {
         state.email = action.payload.user.email;
         state.name = action.payload.user.name;
-        state.token = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
         state.isLoading = false;
       });
     builder
@@ -121,8 +115,6 @@ const userSlice = createSlice({
       .addCase(fetchLoginUser.fulfilled, (state, action) => {
         state.email = action.payload.user.email;
         state.name = action.payload.user.name;
-        state.token = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
         state.isTryAuth = true;
       });
     builder
@@ -167,7 +159,6 @@ const userSlice = createSlice({
       })
       .addCase(fetchUpdateUserProfile.rejected, (state, action) => {
         state.error = action.error?.message;
-        console.log(action);
       })
       .addCase(fetchUpdateUserProfile.fulfilled, (state, action) => {
         state.email = action.payload.user.email;
@@ -186,8 +177,6 @@ const userSlice = createSlice({
       .addCase(fetchLogoutUser.fulfilled, (state, action) => {
         state.email = '';
         state.name = '';
-        state.token = '';
-        state.refreshToken = '';
         state.isLoading = false;
       });
   }

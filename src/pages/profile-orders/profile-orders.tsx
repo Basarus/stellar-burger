@@ -6,7 +6,7 @@ import { fetchGetOrders, selectOrders } from '../../slices/feedSlice';
 import { AppDispatch } from 'src/services/store';
 
 export const ProfileOrders: FC = () => {
-  const { data, isLoading } = useSelector(selectOrders);
+  const { data } = useSelector(selectOrders);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(fetchGetOrders());
