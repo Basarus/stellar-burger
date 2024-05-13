@@ -1,3 +1,5 @@
+export type TTabMode = 'bun' | 'sauce' | 'main';
+
 export type TIngredient = {
   _id: string;
   name: string;
@@ -36,5 +38,3 @@ export type TUser = {
   email: string;
   name: string;
 };
-
-export type TTabMode = 'bun' | 'sauce' | 'main';
