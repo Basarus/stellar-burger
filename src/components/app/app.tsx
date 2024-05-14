@@ -18,13 +18,15 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'src/services/store';
 import { useEffect } from 'react';
 import { fetchUserProfile } from '../../slices/userSlice';
+import { fetchGetIngredients } from '../../slices/feedSlice';
 
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if (localStorage.getItem('token')) dispatch(fetchUserProfile());
+    dispatch(fetchGetIngredients());
+    if (localStorage.getItem('accessToken')) dispatch(fetchUserProfile());
   }, []);
 
   return (
@@ -32,14 +34,7 @@ const App = () => {
       <AppHeader />
       <Routes>
         <Route path='*' element={<NotFound404 />} />
-        <Route
-          path='/'
-          element={
-            <ProtectedRoute>
-              <ConstructorPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route
           path='/feed/:number'
@@ -58,16 +53,14 @@ const App = () => {
         <Route
           path='/ingredients/:id'
           element={
-            <ProtectedRoute>
-              <Modal
-                title='Детали ингредиента'
-                onClose={() => {
-                  navigate(-1);
-                }}
-              >
-                <IngredientDetails />
-              </Modal>
-            </ProtectedRoute>
+            <Modal
+              title='Детали ингредиента'
+              onClose={() => {
+                navigate(-1);
+              }}
+            >
+              <IngredientDetails />
+            </Modal>
           }
         />
         <Route

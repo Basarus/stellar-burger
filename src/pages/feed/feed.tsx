@@ -14,12 +14,10 @@ export const Feed: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   function handleGetFeeds() {
-    dispatch(fetchGetIngredients());
     dispatch(fetchGetFeeds());
   }
 
   useEffect(() => {
-    dispatch(fetchGetIngredients());
     dispatch(fetchGetFeeds());
   }, []);
 

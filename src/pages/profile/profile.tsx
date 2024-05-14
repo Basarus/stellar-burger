@@ -3,8 +3,7 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectUserProfile,
-  fetchUpdateUserProfile,
-  fetchUserProfile
+  fetchUpdateUserProfile
 } from '../../slices/userSlice';
 import { AppDispatch } from 'src/services/store';
 
@@ -24,7 +23,6 @@ export const Profile: FC = () => {
       name: name || '',
       email: email || ''
     }));
-    dispatch(fetchUserProfile());
   }, [email, name]);
 
   const isFormChanged =

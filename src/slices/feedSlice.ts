@@ -30,7 +30,6 @@ interface IFeedState {
   orderRequest: boolean;
   orderModalData: TOrder | null;
   orderModalDetails: TOrder | null;
-  ingredientModalData: TIngredient | null;
   error?: string | null;
 }
 
@@ -54,8 +53,7 @@ const initialState: IFeedState = {
   },
   orderRequest: false,
   orderModalData: null,
-  orderModalDetails: null,
-  ingredientModalData: null
+  orderModalDetails: null
 };
 
 export const fetchGetIngredients = createAsyncThunk(
@@ -124,12 +122,6 @@ const feedSlice = createSlice({
       state.constructorItems.ingredients = [];
       state.orderModalData = null;
       state.orderRequest = false;
-    },
-    openIngredientModal: function (state, action) {
-      state.ingredientModalData =
-        state.ingredients.data.find(
-          (ingredient) => ingredient._id === action.payload
-        ) ?? null;
     }
   },
   selectors: {
@@ -156,9 +148,6 @@ const feedSlice = createSlice({
     },
     selectOrderDetails: function (state) {
       return state.orderModalDetails;
-    },
-    selectIngredientModal: function (state) {
-      return state.ingredientModalData;
     }
   },
   extraReducers: (builder) => {
@@ -171,6 +160,7 @@ const feedSlice = createSlice({
         state.error = action.error?.message;
       })
       .addCase(fetchGetIngredients.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.ingredients.data = action.payload;
         state.ingredients.isLoading = false;
       });
@@ -227,8 +217,7 @@ export const {
   addBurgerIngredient,
   removeBurgerIngredient,
   switchBurgerIngredient,
-  closeOrderModal,
-  openIngredientModal
+  closeOrderModal
 } = feedSlice.actions;
 export const {
   selectIndredients,
@@ -237,7 +226,6 @@ export const {
   selectFeedsOrders,
   selectConstructorItems,
   selectCurrentOrder,
-  selectIngredientModal,
   selectOrderDetails
 } = feedSlice.selectors;
 export const reducer = feedSlice.reducer;

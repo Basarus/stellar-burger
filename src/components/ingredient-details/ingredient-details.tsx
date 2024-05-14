@@ -1,22 +1,16 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  selectIngredientModal,
-  openIngredientModal
-} from '../../slices/feedSlice';
-import { AppDispatch } from 'src/services/store';
+import { useSelector } from 'react-redux';
+import { selectIndredients } from '../../slices/feedSlice';
 
 export const IngredientDetails: FC = () => {
-  const [_, ingredients, hash] = useLocation().pathname.split('/');
-  const dispatch = useDispatch<AppDispatch>();
-  const ingredientData = useSelector(selectIngredientModal);
-
-  useEffect(() => {
-    dispatch(openIngredientModal(hash));
-  }, []);
+  const [_, ingredientsPath, hash] = useLocation().pathname.split('/');
+  const ingredients = useSelector(selectIndredients);
+  const ingredientData = ingredients.data.find(
+    (ingredient) => ingredient._id === hash
+  );
 
   if (!ingredientData) {
     return <Preloader />;

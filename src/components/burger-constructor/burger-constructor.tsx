@@ -18,10 +18,13 @@ export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const onOrderClick = () => {
-    if (!localStorage.getItem('token')) return navigate('/');
+    if (!localStorage.getItem('accessToken')) return navigate('/login');
     if (!constructorItems.bun || orderRequest) return;
     dispatch(
-      createOrderBurger(constructorItems.ingredients.map((item) => item._id))
+      createOrderBurger([
+        ...constructorItems.ingredients.map((item) => item._id),
+        constructorItems.bun._id
+      ])
     );
   };
   const closeOrderModal = () => {

@@ -1,5 +1,5 @@
 import { setCookie, getCookie, deleteCookie } from './cookie';
-import { TIngredient, TOrder, TOrdersData, TUser } from './types';
+import { TIngredient, TOrder, TUser } from './types';
 
 const URL = process.env.BURGER_API_URL;
 
@@ -178,7 +178,7 @@ export const loginUserApi = (data: TLoginData) =>
     .then((data) => {
       if (data?.success) {
         localStorage.setItem('refreshToken', data.refreshToken);
-        localStorage.setItem('token', data.accessToken);
+        localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('userName', data.user.name);
         setCookie('accessToken', data.accessToken);
         return data;

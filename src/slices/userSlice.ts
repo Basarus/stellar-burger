@@ -74,7 +74,7 @@ export const fetchUpdateUserProfile = createAsyncThunk(
 export const fetchLogoutUser = createAsyncThunk(
   'user/logoutUser',
   async function () {
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
     return await logoutApi();
   }
 );

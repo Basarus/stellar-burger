@@ -5,7 +5,6 @@ import { TIngredient } from '@utils-types';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectIndredients,
-  fetchGetIngredients,
   selectOrderDetails,
   fetchGetOrderByNumberId
 } from '../../slices/feedSlice';
@@ -21,7 +20,6 @@ export const OrderInfo: FC = () => {
   const ingredients: TIngredient[] = data;
 
   useEffect(() => {
-    dispatch(fetchGetIngredients());
     dispatch(fetchGetOrderByNumberId(Number(orderId)));
   }, []);
   /* Готовим данные для отображения */
