@@ -160,7 +160,6 @@ const feedSlice = createSlice({
         state.error = action.error?.message;
       })
       .addCase(fetchGetIngredients.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.ingredients.data = action.payload;
         state.ingredients.isLoading = false;
       });
