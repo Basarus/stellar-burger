@@ -6,14 +6,18 @@ import {
   useSelector as selectorHook
 } from 'react-redux';
 
-const rootReducer = () => {}; // Заменить на импорт настоящего редьюсера
+import { reducer as userReducer } from '../slices/userSlice';
+import { reducer as feedReducer } from '../slices/feedSlice';
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    user: userReducer,
+    feed: feedReducer
+  },
   devTools: process.env.NODE_ENV !== 'production'
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof store.dispatch>;
 
 export type AppDispatch = typeof store.dispatch;
 
