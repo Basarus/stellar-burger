@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDBiYmVhOTdlZGUwMDAxZDA2YTNjMSIsImlhdCI6MTcxNjM4OTg0MSwiZXhwIjoxNzE2MzkxMDQxfQ.mqfLfRILz6tzzler8a5E5MPUZUzyNBz3NXvWK6zbc_U",
+  "refreshToken": "b08037211f1f3838d8067882ca33b820c74d58d541743f2bde1eaf2215a636cde1802179b8d41c81",
+  "user": {
+    "email": "basarus51@gmail.com",
+    "name": "Testas"
+  }
+}
