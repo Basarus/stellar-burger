@@ -12,7 +12,7 @@ import {
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-export interface IUserState {
+interface IUserState {
   email: string;
   name: string;
   password: string;
@@ -21,7 +21,7 @@ export interface IUserState {
   error?: string | null;
 }
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
   email: '',
   name: '',
   password: '',

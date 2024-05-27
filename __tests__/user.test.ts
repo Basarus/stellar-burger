@@ -8,16 +8,8 @@ import {
   fetchLogoutUser,
   fetchRegisterUser,
   reducer,
-  IUserState
+  initialState
 } from '../src/slices/userSlice';
-
-const initialState: IUserState = {
-  email: '',
-  name: '',
-  password: '',
-  isTryAuth: false,
-  isLoading: true
-};
 
 describe('Тестирование асинхронных экшенов userSlice', () => {
   test('Запрос на регистрацию (penging)', async () => {

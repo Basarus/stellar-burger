@@ -9,7 +9,7 @@ import {
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
 import { TIngredient, TOrder, TConstructorIngredient } from '@utils-types';
 
-export interface IFeedState {
+interface IFeedState {
   orders: {
     data: TOrder[] | null;
     isLoading: boolean;
@@ -33,7 +33,7 @@ export interface IFeedState {
   error?: string | null;
 }
 
-const initialState: IFeedState = {
+export const initialState: IFeedState = {
   orders: {
     data: null,
     isLoading: true

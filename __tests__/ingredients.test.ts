@@ -1,6 +1,5 @@
 import { expect, test, describe } from '@jest/globals';
 import {
-  IFeedState,
   reducer,
   addBurgerIngredient,
   switchBurgerIngredient,
@@ -9,77 +8,27 @@ import {
   fetchGetFeeds,
   createOrderBurger,
   fetchGetOrderByNumberId,
-  fetchGetOrders
+  fetchGetOrders,
+  initialState
 } from '../src/slices/feedSlice';
 import { TIngredient } from '../src/utils/types';
 
-const initialState: IFeedState = {
-  orders: {
-    data: null,
-    isLoading: true
-  },
-  feeds: {
-    orders: [],
-    total: 0,
-    totalToday: 0
-  },
-  ingredients: {
-    data: [
-      {
-        _id: '643d69a5c3f7b9001cfa093c',
-        name: 'Краторная булка N-200i',
-        type: 'bun',
-        proteins: 80,
-        fat: 24,
-        carbohydrates: 53,
-        calories: 420,
-        price: 1255,
-        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png'
-      },
-      {
-        _id: '643d69a5c3f7b9001cfa0941',
-        name: 'Биокотлета из марсианской Магнолии',
-        type: 'main',
-        proteins: 420,
-        fat: 142,
-        carbohydrates: 242,
-        calories: 4242,
-        price: 424,
-        image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-        image_mobile:
-          'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png'
-      },
-      {
-        _id: '643d69a5c3f7b9001cfa093e',
-        name: 'Филе Люминесцентного тетраодонтимформа',
-        type: 'main',
-        proteins: 44,
-        fat: 26,
-        carbohydrates: 85,
-        calories: 643,
-        price: 988,
-        image: 'https://code.s3.yandex.net/react/code/meat-03.png',
-        image_mobile:
-          'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png'
-      }
-    ],
-    isLoading: true
-  },
-  constructorItems: {
-    bun: null,
-    ingredients: []
-  },
-  orderRequest: false,
-  orderModalData: null,
-  orderModalDetails: null
-};
-
 const expectedIngredients: TIngredient[] =
   require('./mock/ingredients.json') as TIngredient[];
+
+const expectedOrder = {
+  _id: '6653204697ede0001d06c647',
+  ingredients: [
+    '643d69a5c3f7b9001cfa0943',
+    '643d69a5c3f7b9001cfa0943',
+    '643d69a5c3f7b9001cfa093d'
+  ],
+  status: 'done',
+  name: 'Space флюоресцентный бургер',
+  createdAt: '2024-05-26T11:43:02.934Z',
+  updatedAt: '2024-05-26T11:43:03.389Z',
+  number: 40903
+};
 
 describe('Тестирование асинхронных экшенов feedSlice', () => {
   test('Получение ингредиентов (penging)', async () => {
@@ -159,21 +108,7 @@ describe('Тестирование асинхронных экшенов feedSli
       success: true,
       total: 100,
       totalToday: 100,
-      orders: [
-        {
-          _id: '6653204697ede0001d06c647',
-          ingredients: [
-            '643d69a5c3f7b9001cfa0943',
-            '643d69a5c3f7b9001cfa0943',
-            '643d69a5c3f7b9001cfa093d'
-          ],
-          status: 'done',
-          name: 'Space флюоресцентный бургер',
-          createdAt: '2024-05-26T11:43:02.934Z',
-          updatedAt: '2024-05-26T11:43:03.389Z',
-          number: 40903
-        }
-      ]
+      orders: [expectedOrder]
     };
 
     const action = {
@@ -220,28 +155,14 @@ describe('Тестирование асинхронных экшенов feedSli
   });
 
   test('Отправка заказа (fulfilled)', async () => {
-    const expectedData = {
-      _id: '6653204697ede0001d06c647',
-      ingredients: [
-        '643d69a5c3f7b9001cfa0943',
-        '643d69a5c3f7b9001cfa0943',
-        '643d69a5c3f7b9001cfa093d'
-      ],
-      status: 'done',
-      name: 'Space флюоресцентный бургер',
-      createdAt: '2024-05-26T11:43:02.934Z',
-      updatedAt: '2024-05-26T11:43:03.389Z',
-      number: 40903
-    };
-
     const action = {
       type: createOrderBurger.fulfilled.type,
-      payload: { order: expectedData }
+      payload: { order: expectedOrder }
     };
 
     const initialStateTest = {
       ...initialState,
-      orderModalData: expectedData
+      orderModalData: expectedOrder
     };
 
     const newState = reducer(initialStateTest, action);
@@ -277,28 +198,14 @@ describe('Тестирование асинхронных экшенов feedSli
   });
 
   test('Получение заказа по Id (fulfilled)', async () => {
-    const expectedData = {
-      _id: '6653204697ede0001d06c647',
-      ingredients: [
-        '643d69a5c3f7b9001cfa0943',
-        '643d69a5c3f7b9001cfa0943',
-        '643d69a5c3f7b9001cfa093d'
-      ],
-      status: 'done',
-      name: 'Space флюоресцентный бургер',
-      createdAt: '2024-05-26T11:43:02.934Z',
-      updatedAt: '2024-05-26T11:43:03.389Z',
-      number: 40903
-    };
-
     const action = {
       type: fetchGetOrderByNumberId.fulfilled.type,
-      payload: { orders: [expectedData] }
+      payload: { orders: [expectedOrder] }
     };
 
     const initialStateTest = {
       ...initialState,
-      orderModalDetails: expectedData
+      orderModalDetails: expectedOrder
     };
 
     const newState = reducer(initialStateTest, action);
@@ -334,28 +241,14 @@ describe('Тестирование асинхронных экшенов feedSli
   });
 
   test('Получение заказов (fulfilled)', async () => {
-    const expectedData = {
-      _id: '6653204697ede0001d06c647',
-      ingredients: [
-        '643d69a5c3f7b9001cfa0943',
-        '643d69a5c3f7b9001cfa0943',
-        '643d69a5c3f7b9001cfa093d'
-      ],
-      status: 'done',
-      name: 'Space флюоресцентный бургер',
-      createdAt: '2024-05-26T11:43:02.934Z',
-      updatedAt: '2024-05-26T11:43:03.389Z',
-      number: 40903
-    };
-
     const action = {
       type: fetchGetOrders.fulfilled.type,
-      payload: [expectedData]
+      payload: [expectedOrder]
     };
 
     const initialStateTest = {
       ...initialState,
-      orders: { data: [expectedData], isLoading: false }
+      orders: { data: [expectedOrder], isLoading: false }
     };
 
     const newState = reducer(initialStateTest, action);
@@ -368,31 +261,31 @@ describe('Тестирование синхронных экшенов feedSlice
   test('Добавление ингредиента (булка)', () => {
     const newState = reducer(
       initialState,
-      addBurgerIngredient(initialState.ingredients.data[0])
+      addBurgerIngredient({ ...expectedIngredients[0] })
     );
 
     const { constructorItems } = newState;
 
-    expect(constructorItems.bun).toEqual(initialState.ingredients.data[0]);
+    expect(constructorItems.bun).toEqual({ ...expectedIngredients[0] });
   });
 
   test('Добавление ингредиента (начинка)', () => {
     const newState = reducer(
       initialState,
-      addBurgerIngredient(initialState.ingredients.data[1])
+      addBurgerIngredient({ ...expectedIngredients[1] })
     );
 
     const { constructorItems } = newState;
 
     expect(constructorItems.ingredients).toEqual([
-      initialState.ingredients.data[1]
+      { ...expectedIngredients[1] }
     ]);
   });
 
   test('Добавление ингредиента (начинка !== булка)', () => {
     const newState = reducer(
       initialState,
-      addBurgerIngredient(initialState.ingredients.data[0])
+      addBurgerIngredient({ ...expectedIngredients[0] })
     );
     const { constructorItems } = newState;
 
@@ -405,38 +298,8 @@ describe('Тестирование синхронных экшенов feedSlice
       constructorItems: {
         bun: null,
         ingredients: [
-          {
-            _id: '643d69a5c3f7b9001cfa0941',
-            id: '643d69a5c3f7b9001cfa0941',
-            name: 'Биокотлета из марсианской Магнолии',
-            type: 'main',
-            proteins: 420,
-            fat: 142,
-            carbohydrates: 242,
-            calories: 4242,
-            price: 424,
-            image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-01-large.png'
-          },
-          {
-            _id: '643d69a5c3f7b9001cfa093e',
-            id: '643d69a5c3f7b9001cfa093e',
-            name: 'Филе Люминесцентного тетраодонтимформа',
-            type: 'main',
-            proteins: 44,
-            fat: 26,
-            carbohydrates: 85,
-            calories: 643,
-            price: 988,
-            image: 'https://code.s3.yandex.net/react/code/meat-03.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-03-large.png'
-          }
+          { ...expectedIngredients[0], id: expectedIngredients[0]._id },
+          { ...expectedIngredients[1], id: expectedIngredients[1]._id }
         ]
       }
     };
@@ -448,36 +311,8 @@ describe('Тестирование синхронных экшенов feedSlice
     const { constructorItems } = newState;
 
     expect(constructorItems.ingredients).toEqual([
-      {
-        _id: '643d69a5c3f7b9001cfa093e',
-        id: '643d69a5c3f7b9001cfa093e',
-        name: 'Филе Люминесцентного тетраодонтимформа',
-        type: 'main',
-        proteins: 44,
-        fat: 26,
-        carbohydrates: 85,
-        calories: 643,
-        price: 988,
-        image: 'https://code.s3.yandex.net/react/code/meat-03.png',
-        image_mobile:
-          'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png'
-      },
-      {
-        _id: '643d69a5c3f7b9001cfa0941',
-        id: '643d69a5c3f7b9001cfa0941',
-        name: 'Биокотлета из марсианской Магнолии',
-        type: 'main',
-        proteins: 420,
-        fat: 142,
-        carbohydrates: 242,
-        calories: 4242,
-        price: 424,
-        image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-        image_mobile:
-          'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png'
-      }
+      { ...expectedIngredients[1], id: expectedIngredients[1]._id },
+      { ...expectedIngredients[0], id: expectedIngredients[0]._id }
     ]);
   });
 
@@ -487,22 +322,7 @@ describe('Тестирование синхронных экшенов feedSlice
       constructorItems: {
         bun: null,
         ingredients: [
-          {
-            _id: '643d69a5c3f7b9001cfa0941',
-            id: '643d69a5c3f7b9001cfa0941',
-            name: 'Биокотлета из марсианской Магнолии',
-            type: 'main',
-            proteins: 420,
-            fat: 142,
-            carbohydrates: 242,
-            calories: 4242,
-            price: 424,
-            image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-            image_mobile:
-              'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-            image_large:
-              'https://code.s3.yandex.net/react/code/meat-01-large.png'
-          }
+          { ...expectedIngredients[1], id: expectedIngredients[1]._id }
         ]
       }
     };
