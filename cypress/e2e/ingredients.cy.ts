@@ -24,6 +24,7 @@ describe('Работа с ингредиентами', function () {
       body: mockUserProfile
     }).then((resp) => {
       window.localStorage.setItem('accessToken', resp.body.accessToken);
+      cy.setCookie('accessToken', resp.body.accessToken);
     });
   });
 
@@ -33,6 +34,11 @@ describe('Работа с ингредиентами', function () {
       success: true,
       data: ingredients
     });
+  });
+
+  beforeEach(() => {
+    window.localStorage.removeItem('accessToken');
+    cy.clearAllCookies();
   });
 
   it('Ингредиенты добавляются в заказ', function () {
