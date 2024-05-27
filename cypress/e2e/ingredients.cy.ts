@@ -36,7 +36,7 @@ describe('Работа с ингредиентами', function () {
     });
   });
 
-  beforeEach(() => {
+  afterEach(() => {
     window.localStorage.removeItem('accessToken');
     cy.clearAllCookies();
   });
@@ -101,8 +101,8 @@ describe('Работа с ингредиентами', function () {
       cy.get(`[data-cy=ing-${ingredient}] > button`).click();
     });
     cy.get(`button`).contains('Оформить заказ').click();
-    cy.intercept('POST', baseUrl + '/orders');
-    cy.wait(5000);
+    cy.intercept('POST', baseUrl + '/orders').as('createOrder');
+    cy.wait('@createOrder');
     cy.get('h2').should('exist', /[^0-9]+/);
     cy.get(`body`).click(0, 0);
     cy.get(`[data-cy=modal]`).should('not.exist');
