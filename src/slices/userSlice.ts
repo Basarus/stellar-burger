@@ -8,7 +8,7 @@ import {
   resetPasswordApi,
   updateUserApi,
   TLoginData
-} from '@api';
+} from '../utils/burger-api';
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -21,7 +21,7 @@ interface IUserState {
   error?: string | null;
 }
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
   email: '',
   name: '',
   password: '',
@@ -163,7 +163,6 @@ const userSlice = createSlice({
       .addCase(fetchUpdateUserProfile.fulfilled, (state, action) => {
         state.email = action.payload.user.email;
         state.name = action.payload.user.name;
-        localStorage.setItem('userName', action.payload.user.name);
         state.isLoading = false;
       });
     builder

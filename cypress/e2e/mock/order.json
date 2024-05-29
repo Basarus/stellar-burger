@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "name": "Флюоресцентный люминесцентный бургер",
+  "order": {
+    "ingredients": ["643d69a5c3f7b9001cfa093e", "643d69a5c3f7b9001cfa093d"],
+    "_id": "664e087897ede0001d06bbb2",
+    "owner": {
+      "name": "Testas",
+      "email": "basarus51@gmail.com",
+      "createdAt": "2024-05-12T12:54:02.405Z",
+      "updatedAt": "2024-05-14T20:28:06.546Z"
+    },
+    "status": "done",
+    "name": "Флюоресцентный люминесцентный бургер",
+    "createdAt": "2024-05-22T15:00:08.641Z",
+    "updatedAt": "2024-05-22T15:00:09.043Z",
+    "number": 40549,
+    "price": 1976
+  }
+}

@@ -4,7 +4,7 @@ import {
   getOrdersApi, // all
   orderBurgerApi, // send
   getOrderByNumberApi
-} from '@api';
+} from '../utils/burger-api';
 
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
 import { TIngredient, TOrder, TConstructorIngredient } from '@utils-types';
@@ -33,7 +33,7 @@ interface IFeedState {
   error?: string | null;
 }
 
-const initialState: IFeedState = {
+export const initialState: IFeedState = {
   orders: {
     data: null,
     isLoading: true
@@ -183,6 +183,7 @@ const feedSlice = createSlice({
       })
       .addCase(createOrderBurger.rejected, (state, action) => {
         state.error = action.error?.message;
+        state.orderRequest = false;
       })
       .addCase(createOrderBurger.fulfilled, (state, action) => {
         state.constructorItems.bun = null;
@@ -191,6 +192,7 @@ const feedSlice = createSlice({
       });
     builder
       .addCase(fetchGetOrderByNumberId.pending, (state) => {
+        state.orderModalDetails = null;
         state.error = null;
       })
       .addCase(fetchGetOrderByNumberId.rejected, (state, action) => {

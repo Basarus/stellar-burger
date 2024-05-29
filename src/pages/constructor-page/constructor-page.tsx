@@ -1,20 +1,14 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { selectIndredients, fetchGetIngredients } from '../../slices/feedSlice';
-import { AppDispatch } from 'src/services/store';
+import { useSelector } from 'react-redux';
+import { selectIndredients } from '../../slices/feedSlice';
 import styles from './constructor-page.module.css';
 
 import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
 export const ConstructorPage: FC = () => {
   const { isLoading } = useSelector(selectIndredients);
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    dispatch(fetchGetIngredients());
-  }, []);
 
   return (
     <>
